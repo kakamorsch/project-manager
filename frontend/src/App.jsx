@@ -1,16 +1,19 @@
 import React from 'react';
+import { ProjectProvider } from './ProjectContext';
 import ProjectForm from './components/ProjectForm';
 import ActivityForm from './components/ActivityForm';
+import ProjectList from './components/ProjectList'; // Importa o novo componente
 
 function App() {
-  const projectId = 1; // Exemplo de ID do projeto, você pode gerenciá-lo dinamicamente
-
   return (
-    <div className="container mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Gerenciamento de Projetos</h1>
-      <ProjectForm />
-      <ActivityForm projectId={projectId} />
-    </div>
+    <ProjectProvider>
+      <div className="container mx-auto flex flex-col items-center justify-center">
+        <h1 className="text-2xl font-bold mb-4">Ger enciador de Projetos</h1>
+        <ProjectForm />
+        <ActivityForm />
+        <ProjectList />
+      </div>
+    </ProjectProvider>
   );
 }
 
