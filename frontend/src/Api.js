@@ -12,5 +12,5 @@ export const handleSubmitData = async (endpoint, data) => {
     throw new Error('Erro ao enviar dados');
   }
 
-  return await response.json();
+  return await response.json(); // Retorna a resposta JSON
 };

@@ -5,16 +5,8 @@ const ProjectList = () => {
   const { projects, fetchProjects } = useContext(ProjectContext);
 
   useEffect(() => {
-    const fetchProjectsData = async () => {
-      try {
-        await fetchProjects(); // Chama a função fetchProjects do contexto
-      } catch (error) {
-        console.error('Erro ao buscar projetos:', error);
-      }
-    };
-
-    fetchProjectsData(); // Busca os projetos ao montar o componente
-  }, []); // Array de dependências vazio para evitar loop
+    fetchProjects(); // Busca os projetos ao montar o componente
+  }, [fetchProjects]); // Certifique-se de que fetchProjects é memoizado
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -30,7 +22,7 @@ const ProjectList = () => {
             <p>Atrasado: {project.isDelayed}</p>
             <div className="mt-2">
               <h3 className="font-semibold">Atividades:</h3>
-              {project.activities.length > 0 ? (
+              {project.activities && project.activities.length > 0 ? (
                 <ul>
                   {project.activities.map((activity) => (
                     <li key={activity.id} className="ml-4">

@@ -7,9 +7,9 @@ const ProjectForm = () => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [error, setError] = useState('');
-  const { addProject, fetchProjects } = useContext(ProjectContext);
+  const { addProject } = useContext(ProjectContext);
 
-  const handleProjectSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
 
@@ -27,7 +27,7 @@ const ProjectForm = () => {
     try {
       const newProject = await handleSubmitData('/projetos', projectData);
       addProject(newProject); // Adiciona o projeto à store
-      fetchProjects(); // Atualiza a lista de projetos
+      // Limpa os campos após o submit
       setProjectName('');
       setStartDate('');
       setEndDate('');
@@ -37,32 +37,34 @@ const ProjectForm = () => {
   };
 
   return (
-    <form onSubmit={handleProjectSubmit} className="mb-4">
-      <h2 className="text-xl font-bold">Cadastrar Projeto</h2>
+    <form onSubmit={handleSubmit} className="mb-4 p-4 border rounded shadow">
+      <h2 className="text-xl font-bold mb-2">Criar Projeto</h2>
       <input
         type="text"
         placeholder="Nome do Projeto"
         value={projectName}
         onChange={(e) => setProjectName(e.target.value)}
-        className="border p-2 mr-2"
+        className="border p-2 mb-2 w-full"
         required
       />
       <input
         type="date"
         value={startDate}
         onChange={(e) => setStartDate(e.target.value)}
-        className="border p-2 mr-2"
+        className="border p-2 mb-2 w-full"
         required
       />
-      <input
+ <input
         type="date"
         value={endDate}
         onChange={(e) => setEndDate(e.target.value)}
-        className="border p-2 mr-2"
+        className="border p-2 mb-2 w-full"
         required
       />
-      <button type="submit" className="bg-blue-500 text-white p-2">Cadastrar Projeto</button>
-      {error && <p className="text-red-500">{error}</p>}
+      <button type="submit" className="bg-green-500 text-white p-2 rounded">
+        Criar Projeto
+      </button>
+      {error && <p className="text-red-500 mt-2">{error}</p>}
     </form>
   );
 };

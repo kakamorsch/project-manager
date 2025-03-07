@@ -8,7 +8,7 @@ function App() {
   return (
     <ProjectProvider>
       <div className="container mx-auto flex flex-col items-center justify-center">
-        <h1 className="text-2xl font-bold mb-4">Ger enciador de Projetos</h1>
+        <h1 className="text-2xl font-bold mb-4">Gerenciador de Projetos</h1>
         <ProjectForm />
         <ActivityForm />
         <ProjectList />
