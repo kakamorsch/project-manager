@@ -6,16 +6,17 @@ export const ProjectProvider = ({ children }) => {
   const [projects, setProjects] = useState([]);
   const [activities, setActivities] = useState([]);
 
+  // Função para buscar projetos do backend
   const fetchProjects = useCallback(async () => {
     try {
-      const response = await fetch('http://localhost:5000/projetos');
+      const response = await fetch('http://localhost:5000/projetos'); // URL do seu backend
       if (!response.ok) {
         throw new Error('Erro ao buscar projetos');
       }
       const data = await response.json();
-      setProjects(data);
+      setProjects(data); // Atualiza o estado com os projetos recebidos
     } catch (error) {
-      console.error(error.message);
+      console.error('Erro ao buscar projetos:', error);
     }
   }, []);
 
@@ -24,7 +25,18 @@ export const ProjectProvider = ({ children }) => {
   };
 
   const addActivity = (activity) => {
-    setActivities((prev) => [...prev, activity]); // Adiciona a nova atividade ao estado
+    setActivities((prev) => [...prev, activity]);
+    setProjects((prev) => {
+      return prev.map((project) => {
+        if (project.id === activity.projectId) {
+          return {
+            ...project,
+            activities: [...project.activities, activity], // Adiciona a nova atividade ao projeto
+          };
+        }
+        return project;
+      });
+    });
   };
 
   return (

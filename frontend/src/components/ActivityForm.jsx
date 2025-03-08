@@ -9,7 +9,7 @@ const ActivityForm = () => {
   const [isFinalized, setIsFinalized] = useState(false);
   const [selectedProjectId, setSelectedProjectId] = useState('');
   const [error, setError] = useState('');
-  const { projects, addActivity } = useContext(ProjectContext); // Certifique-se de que addActivity está sendo importado corretamente
+  const { projects, addActivity } = useContext(ProjectContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,7 +21,7 @@ const ActivityForm = () => {
     }
 
     const activityData = {
-      projectId: selectedProjectId,
+      projectId: Number(selectedProjectId), // Converte para número
       name: activityName,
       startDate,
       endDate,

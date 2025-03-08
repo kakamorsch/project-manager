@@ -1,8 +1,8 @@
 const express = require('express');
-const cors = require('cors'); // Importa o pacote cors
+const cors = require('cors');
 const app = express();
 
-app.use(cors()); // Usa o middleware cors
+app.use(cors());
 app.use(express.json());
 
 let projects = []; // Array para armazenar projetos
@@ -12,11 +12,11 @@ let activities = []; // Array para armazenar atividades
 app.post('/projetos', (req, res) => {
   const { name, startDate, endDate } = req.body;
   const newProject = {
-    id: projects.length + 1, // Gera um ID simples
+    id: projects.length + 1,
     name,
     startDate,
     endDate,
-    activities: [], // Inicializa um array de atividades
+    activities: [],
   };
   projects.push(newProject);
   res.status(201).json(newProject);
@@ -24,17 +24,19 @@ app.post('/projetos', (req, res) => {
 
 // Rota para adicionar uma nova atividade
 app.post('/atividades', (req, res) => {
+  console.log('Dados recebidos:', req.body); // Log dos dados recebidos
+
   const { projectId, name, startDate, endDate, finalized } = req.body;
 
   // Verifica se o projeto existe
-  const project = projects.find((p) => p.id === projectId);
+  const project = projects.find((p) => p.id === Number(projectId));
   if (!project) {
     return res.status(404).json({ message: 'Projeto não encontrado' });
   }
 
   // Cria a nova atividade
   const newActivity = {
-    id: activities.length + 1, // Gera um ID simples
+    id: activities.length + 1,
     projectId,
     name,
     startDate,
@@ -48,6 +50,7 @@ app.post('/atividades', (req, res) => {
   // Adiciona a nova atividade ao projeto correspondente
   project.activities.push(newActivity);
 
+  console.log('Atividade criada:', newActivity); // Log da nova atividade
   res.status(201).json(newActivity); // Retorna a nova atividade criada
 });
 
