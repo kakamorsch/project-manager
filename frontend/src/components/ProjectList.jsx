@@ -6,37 +6,36 @@ const ProjectList = () => {
 
   useEffect(() => {
     fetchProjects(); // Busca os projetos ao montar o componente
-  }, [fetchProjects]); // Certifique-se de que fetchProjects é memoizado
+  }, [fetchProjects]);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      {projects.length === 0 ? (
-        <p>Nenhum projeto cadastrado.</p>
-      ) : (
-        projects.map((project) => (
-          <div key={project.id} className="border p-4 rounded shadow">
+    <div className="space-y-4">
+      {projects.map((project) => {
+        // Verifica se o projeto está atrasado
+        const isDelayed = new Date(project.endDate) < new Date();
+        // Verifica se o projeto está pendente (não finalizado e dentro do prazo)
+        const isPending = !isDelayed && !project.activities.every(activity => activity.finalized);
+
+        return (
+          <div key={project.id} className={`p-4 border rounded shadow ${isDelayed ? 'bg-red-100' : 'bg-white'}`}>
             <h2 className="text-xl font-bold">{project.name}</h2>
-            <p>Data de Início: {new Date(project.startDate).toLocaleDateString()}</p>
-            <p>Data de Fim: {new Date(project.endDate).toLocaleDateString()}</p>
-            <p>% Completo: {project.completionPercentage}</p>
-            <p>Atrasado: {project.isDelayed}</p>
-            <div className="mt-2">
-              <h3 className="font-semibold">Atividades:</h3>
-              {project.activities && project.activities.length > 0 ? (
-                <ul>
-                  {project.activities.map((activity) => (
-                    <li key={activity.id} className="ml-4">
-                      {activity.name} - {new Date(activity.startDate).toLocaleDateString()} a {new Date(activity.endDate).toLocaleDateString()} {activity.finalized ? '(Finalizada)' : ''}
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <p className="ml-4">Nenhuma atividade cadastrada.</p>
-              )}
-            </div>
+            <p className="text-gray-600">Duração: {project.startDate} a {project.endDate}</p>
+            <p className={`font-semibold ${isDelayed ? 'text-red-600' : isPending ? 'text-yellow-600' : 'text-green-600'}`}>
+              Status: {isDelayed ? 'Atrasado' : isPending ? 'Pendente' : 'Concluído'}
+            </p>
+            <ul className="mt-2">
+              {project.activities.map((activity) => (
+                <li key={activity.id} className="flex justify-between items-center border-b py-2">
+                  <span>{activity.name}</span>
+                  <span className={`font-bold ${activity.finalized ? 'text-green-500' : 'text-red-500'}`}>
+                    {activity.finalized ? '(Finalizada)' : '(Não finalizada)'}
+                  </span>
+                </li>
+              ))}
+            </ul>
           </div>
-        ))
-      )}
+        );
+      })}
     </div>
   );
 };
