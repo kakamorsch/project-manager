@@ -1,47 +1,35 @@
-import React, { createContext, useState, useCallback } from 'react';
+import { createContext, useState, useEffect, useCallback } from 'react'
+import { getProjects } from './Api'
 
-export const ProjectContext = createContext();
+const ProjectContext = createContext()
 
-export const ProjectProvider = ({ children }) => {
-  const [projects, setProjects] = useState([]);
-  const [activities, setActivities] = useState([]);
+export function ProjectProvider({ children }) {
+  const [projects, setProjects] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
-  // Função para buscar projetos do backend
-  const fetchProjects = useCallback(async () => {
+  const refreshProjects = useCallback(async () => {
     try {
-      const response = await fetch('http://localhost:5000/projetos'); // URL do seu backend
-      if (!response.ok) {
-        throw new Error('Erro ao buscar projetos');
-      }
-      const data = await response.json();
-      setProjects(data); // Atualiza o estado com os projetos recebidos
-    } catch (error) {
-      console.error('Erro ao buscar projetos:', error);
+      setLoading(true)
+      const data = await getProjects()
+      setProjects(data)
+      setError(null)
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
     }
-  }, []);
+  }, [])
 
-  const addProject = (project) => {
-    setProjects((prev) => [...prev, project]);
-  };
-
-  const addActivity = (activity) => {
-    setActivities((prev) => [...prev, activity]);
-    setProjects((prev) => {
-      return prev.map((project) => {
-        if (project.id === activity.projectId) {
-          return {
-            ...project,
-            activities: [...project.activities, activity], // Adiciona a nova atividade ao projeto
-          };
-        }
-        return project;
-      });
-    });
-  };
+  useEffect(() => {
+    refreshProjects()
+  }, [refreshProjects])
 
   return (
-    <ProjectContext.Provider value={{ projects, addProject, fetchProjects, addActivity }}>
+    <ProjectContext.Provider value={{ projects, loading, error, refreshProjects }}>
       {children}
     </ProjectContext.Provider>
-  );
-};
+  )
+}
+
+export default ProjectContext

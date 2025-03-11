@@ -1,49 +1,49 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { getProjects, deleteProject } from '../Api'
+import { getActivities, deleteActivity } from '../Api'
 
-export default function ProjectList() {
-  const [projects, setProjects] = useState([])
+export default function ActivityList() {
+  const [activities, setActivities] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    const loadProjects = async () => {
+    const loadActivities = async () => {
       try {
-        const data = await getProjects()
-        setProjects(data)
+        const data = await getActivities()
+        setActivities(data)
       } catch (err) {
         setError(err.message)
       } finally {
         setLoading(false)
       }
     }
-    loadProjects()
+    loadActivities()
   }, [])
 
   const handleDelete = async (id) => {
-    if (window.confirm('Tem certeza que deseja excluir este projeto?')) {
+    if (window.confirm('Tem certeza que deseja excluir esta atividade?')) {
       try {
-        await deleteProject(id)
-        setProjects(projects.filter(project => project.id !== id))
+        await deleteActivity(id)
+        setActivities(activities.filter(activity => activity.id !== id))
       } catch (err) {
         setError(err.message)
       }
     }
   }
 
-  if (loading) return <div className="p-4 text-gray-500">Carregando projetos...</div>
+  if (loading) return <div className="p-4 text-gray-500">Carregando atividades...</div>
   if (error) return <div className="p-4 text-red-500">Erro: {error}</div>
 
   return (
     <div className="container mx-auto p-4">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold text-blue-600">Lista de Projetos</h1>
+        <h1 className="text-3xl font-bold text-blue-600">Lista de Atividades</h1>
         <Link
-          to="/projetos/novo"
+          to="/atividades/novo"
           className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition-colors"
         >
-          Novo Projeto
+          Nova Atividade
         </Link>
       </div>
 
@@ -52,39 +52,36 @@ export default function ProjectList() {
           <thead className="bg-gray-800 text-white">
             <tr>
               <th className="text-left py-3 px-4 uppercase font-semibold text-sm">Nome</th>
+              <th className="text-left py-3 px-4 uppercase font-semibold text-sm">Projeto</th>
               <th className="text-left py-3 px-4 uppercase font-semibold text-sm">Início</th>
               <th className="text-left py-3 px-4 uppercase font-semibold text-sm">Término</th>
-              <th className="text-left py-3 px-4 uppercase font-semibold text-sm">Progresso</th>
+              <th className="text-left py-3 px-4 uppercase font-semibold text-sm">Status</th>
               <th className="text-left py-3 px-4 uppercase font-semibold text-sm">Ações</th>
             </tr>
           </thead>
           <tbody className="text-gray-700">
-            {projects.map(project => (
-              <tr key={project.id} className="hover:bg-gray-50 border-b border-gray-200">
-                <td className="py-3 px-4">{project.name}</td>
-                <td className="py-3 px-4">{new Date(project.startDate).toLocaleDateString()}</td>
-                <td className="py-3 px-4">{new Date(project.endDate).toLocaleDateString()}</td>
+            {activities.map(activity => (
+              <tr key={activity.id} className="hover:bg-gray-50 border-b border-gray-200">
+                <td className="py-3 px-4">{activity.name}</td>
+                <td className="py-3 px-4">Projeto #{activity.projectId}</td>
+                <td className="py-3 px-4">{new Date(activity.startDate).toLocaleDateString()}</td>
+                <td className="py-3 px-4">{new Date(activity.endDate).toLocaleDateString()}</td>
                 <td className="py-3 px-4">
-                  <div className="flex items-center">
-                    <div className="w-full bg-gray-200 rounded-full h-2.5">
-                      <div
-                        className="bg-blue-600 h-2.5 rounded-full"
-                        style={{ width: `${project.projectPercentage}%` }}
-                      ></div>
-                    </div>
-                    <span className="ml-2 text-sm">{project.projectPercentage?.toFixed(1)}%</span>
-                  </div>
+                  <span className={`px-2 py-1 rounded-full text-xs ${activity.finalized ?
+                    'bg-green-200 text-green-800' : 'bg-yellow-200 text-yellow-800'}`}>
+                    {activity.finalized ? 'Concluída' : 'Em andamento'}
+                  </span>
                 </td>
                 <td className="py-3 px-4">
                   <div className="flex gap-2">
                     <Link
-                      to={`/projetos/${project.id}/edit`}
+                      to={`/atividades/${activity.id}/edit`}
                       className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm transition-colors"
                     >
                       Editar
                     </Link>
                     <button
-                      onClick={() => handleDelete(project.id)}
+                      onClick={() => handleDelete(activity.id)}
                       className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded text-sm transition-colors"
                     >
                       Excluir
@@ -97,9 +94,9 @@ export default function ProjectList() {
         </table>
       </div>
 
-      {projects.length === 0 && (
+      {activities.length === 0 && (
         <div className="mt-4 text-gray-500 text-center">
-          Nenhum projeto cadastrado
+          Nenhuma atividade cadastrada
         </div>
       )}
     </div>
