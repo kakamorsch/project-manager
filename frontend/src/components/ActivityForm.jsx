@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import {createProject} from '../Api'
-import { Link, useNavigate } from 'react-router-dom';
-
+import { getProjects, createActivity } from '../Api';
+import { useNavigate, Link } from 'react-router-dom';
 function ActivityForm() {
   const [projects, setProjects] = useState([]);
   const [formData, setFormData] = useState({
@@ -14,18 +13,15 @@ function ActivityForm() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    createProject()
-      .then(response => setProjects(response.data))
-      .catch(error => console.error(error));
+    getProjects().then(response => {
+      return setProjects(response)
+    });
   }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('/atividades', {
-        ...formData,
-        projectId: Number(formData.projectId)
-      });
+      await createActivity(formData);
       navigate('/projetos');
     } catch (error) {
       console.error('Erro ao criar atividade:', error);
@@ -43,7 +39,7 @@ function ActivityForm() {
           <select
             required
             value={formData.projectId}
-            onChange={(e) => setFormData({...formData, projectId: e.target.value})}
+            onChange={(e) => setFormData({...formData, projectId: Number(e.target.value)})}
             className="w-full p-2 border rounded"
           >
             <option value="">Selecione um projeto</option>

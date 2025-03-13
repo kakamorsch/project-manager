@@ -21,12 +21,16 @@ export function ProjectProvider({ children }) {
     }
   }, [])
 
+  const updateProjects = useCallback((newProjects) => {
+    setProjects(newProjects)
+  }, [])
+
   useEffect(() => {
     refreshProjects()
   }, [refreshProjects])
 
   return (
-    <ProjectContext.Provider value={{ projects, loading, error, refreshProjects }}>
+    <ProjectContext.Provider value={{ projects, loading, error, refreshProjects, updateProjects }}>
       {children}
     </ProjectContext.Provider>
   )
