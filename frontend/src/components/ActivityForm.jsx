@@ -1,7 +1,9 @@
-import React, { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useGetProjects, useCreateActivity } from '../Api';
-import { useNavigate, Link } from 'react-router-dom';
-import ProjectContext from '../ProjectContext';  // Importe o contexto
+import { useNavigate } from 'react-router-dom';
+import ProjectContext from '../ProjectContext';
+import Button from './ui/Button';
+import FormField from './ui/FormField';
 
 function ActivityForm() {
   const [formData, setFormData] = useState({
@@ -9,38 +11,19 @@ function ActivityForm() {
     name: '',
     startDate: '',
     endDate: '',
-    completed: false,
+    finalized: false,
   });
+
   const navigate = useNavigate();
-  const { refreshProjects } = useContext(ProjectContext);  // Use o contexto
-
-  // Corrigindo a desestruturação para corresponder ao retorno do hook
+  const { refreshProjects } = useContext(ProjectContext);
   const { projects, error, loading } = useGetProjects();
-
-  // O hook retorna um objeto com a função createActivity e não a função diretamente
   const { createActivity, error: createError, loading: createLoading } = useCreateActivity();
-
-  useEffect(() => {
-    if (error) {
-      console.error('Error loading projects:', error);
-    }
-  }, [error]);
-
-  useEffect(() => {
-    if (createError) {
-      console.error('Error creating activity:', createError);
-    }
-  }, [createError]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await createActivity(formData);
-
-      // Atualiza o estado global de projetos
-      refreshProjects();
-
-      // Navega para a página do projeto após criar a atividade
+      await refreshProjects(); // Garante o refresh completo
       navigate(`/projects/${formData.projectId}`);
     } catch (error) {
       console.error('Error creating activity:', error);
@@ -48,106 +31,64 @@ function ActivityForm() {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-4">New Activity</h1>
-      {loading ? (
-        <div className="text-gray-500 text-center">Loading...</div>
-      ) : error ? (
-        <div className="text-red-500 text-center">Error loading projects: {error.message}</div>
-      ) : (
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              Project
-            </label>
-            <select
-              required
-              value={formData.projectId}
-              onChange={(e) =>
-                setFormData({ ...formData, projectId: Number(e.target.value) })
-              }
-              className="w-full p-2 border rounded"
-            >
-              <option value="">Select a project</option>
-              {projects?.map((project) => (
-                <option key={project.id} value={project.id}>
-                  {project.name}
-                </option>
-              ))}
-            </select>
-          </div>
+    <div className="container mx-auto p-4 max-w-2xl">
+      <h1 className="text-3xl font-bold mb-6">New Activity</h1>
 
-          <div>
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              Activity Name
-            </label>
-            <input
-              type="text"
-              required
-              value={formData.name}
-              onChange={(e) =>
-                setFormData({ ...formData, name: e.target.value })
-              }
-              className="w-full p-2 border rounded"
-            />
-          </div>
+      <FormField label="Project" error={error}>
+        <select
+          required
+          value={formData.projectId}
+          onChange={(e) => setFormData({ ...formData, projectId: Number(e.target.value) })}
+          className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="">Select a project</option>
+          {projects?.map((project) => (
+            <option key={project.id} value={project.id}>{project.name}</option>
+          ))}
+        </select>
+      </FormField>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-gray-700 text-sm font-bold mb-2">
-                Start Date
-              </label>
-              <input
-                type="date"
-                required
-                value={formData.startDate}
-                onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
-                className="w-full p-2 border rounded"
-              />
-            </div>
+      <FormField label="Activity Name" error={createError}>
+        <input
+          type ="text"
+          required
+          value={formData.name}
+          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+          className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500"
+        />
+      </FormField>
 
-            <div>
-              <label className="block text-gray-700 text-sm font-bold mb-2">
-                End Date
-              </label>
-              <input
-                type="date"
-                required
-                value={formData.endDate}
-                onChange={(e) =>
-                  setFormData({ ...formData, endDate: e.target.value })
-                }
-                className="w-full p-2 border rounded"
-              />
-            </div>
-          </div>
+      <FormField label="Start Date">
+        <input
+          type="date"
+          value={formData.startDate}
+          onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
+          className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500"
+        />
+      </FormField>
 
-          <div>
-            <label className="inline-flex items-center">
-              <input
-                type="checkbox"
-                checked={formData.completed}
-                onChange={(e) =>
-                  setFormData({ ...formData, completed: e.target.checked })
-                }
-                className="form-checkbox"
-              />
-              <span className="ml-2 text-gray-700">Concluído</span>
-            </label>
-          </div>
+      <FormField label="End Date">
+        <input
+          type="date"
+          value={formData.endDate}
+          onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
+          className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500"
+        />
+      </FormField>
 
-          <button
-            type="submit"
-            disabled={createLoading}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors"
-          >
-            {createLoading ? 'Creating...' : 'Create Activity'}
-          </button>
-        </form>
-      )}
-      <Link to="/activities" className="text-blue-500 hover:underline mt-4 inline-block">
-        Back to Activities
-      </Link>
+      <div className="flex items-center mb-4">
+        <input
+          type="checkbox"
+          checked={formData.finalized}
+          onChange={(e) => setFormData({ ...formData, finalized: e.target.checked })}
+          className="mr-2"
+        />
+        <label>Finalized</label>
+      </div>
+
+      <Button variant="primary" loading={createLoading} onClick={handleSubmit}>
+        Create Activity
+      </Button>
     </div>
   );
 }
