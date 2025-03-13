@@ -1,9 +1,9 @@
 {
   "name": "backend",
-  "module": "server.js",
+  "module": "./src/app.js",
   "type": "module",
   "scripts": {
-    "dev": "bun run server.js"
+    "dev": "bun run ./src/app.js"
   },
   "devDependencies": {
     "@types/bun": "latest"

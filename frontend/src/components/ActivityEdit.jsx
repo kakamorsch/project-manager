@@ -32,7 +32,7 @@ export default function ActivityEdit() {
     e.preventDefault()
     try {
       await updateActivity(id, activity)
-      navigate('/atividades')
+      navigate('/activities')
     } catch (err) {
       setError(err.message)
     }
@@ -127,7 +127,7 @@ export default function ActivityEdit() {
           </button>
           <button
             type="button"
-            onClick={() => navigate('/atividades')}
+            onClick={() => navigate('/activities')}
             className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition-colors"
           >
             Cancelar

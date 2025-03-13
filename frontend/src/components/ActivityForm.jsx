@@ -22,7 +22,7 @@ function ActivityForm() {
     e.preventDefault();
     try {
       await createActivity(formData);
-      navigate('/projetos');
+      navigate('/projects');
     } catch (error) {
       console.error('Erro ao criar atividade:', error);
     }
@@ -109,7 +109,7 @@ function ActivityForm() {
           >
             Salvar
           </button>
-          <Link to="/projetos" className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+          <Link to="/projects" className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
             Cancelar
           </Link>
         </div>

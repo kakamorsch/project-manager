@@ -40,7 +40,7 @@ export default function ActivityList() {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold text-blue-600">Lista de Atividades</h1>
         <Link
-          to="/atividades/novo"
+          to="/activities/new"
           className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition-colors"
         >
           Nova Atividade
@@ -75,7 +75,7 @@ export default function ActivityList() {
                 <td className="py-3 px-4">
                   <div className="flex gap-2">
                     <Link
-                      to={`/atividades/${activity.id}/edit`}
+                      to={`/activities/${activity.id}/edit`}
                       className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm transition-colors"
                     >
                       Editar

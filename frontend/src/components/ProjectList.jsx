@@ -11,21 +11,7 @@ const ProjectList = () => {
 		const loadProjects = async () => {
 			try {
 				const data = await getProjects();
-				const projects = data.map((project) => {
-					const projectDueDate = new Date(project.endDate);
-					// const isOnTime = projectDueDate > new Date();
-
-					const isGoingToBeLate = project?.activities.some((activity) => {
-						return projectDueDate < new Date(activity.endDate);
-					});
-					const delayed = isGoingToBeLate;
-					return {
-						...project,
-						delayed,
-					};
-				});
-
-				setProjects(projects);
+				setProjects(data);
 			} catch (err) {
 				setError(err.message);
 			} finally {
@@ -59,7 +45,7 @@ const ProjectList = () => {
 				</div>
 			)}
 			<Link
-				to="/projetos/novo"
+				to="/projects/new"
 				className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition-colors"
 			>
 				Novo Projeto
@@ -111,11 +97,11 @@ const Table = ({ projects, onDelete }) => {
 								<div className="w-full bg-gray-200 rounded-full h-2.5">
 									<div
 										className="bg-blue-600 h-2.5 rounded-full"
-										style={{ width: `${project.projectPercentage}%` }}
+										style={{ width: `${project.completionPercentage}%` }}
 									></div>
 								</div>
 								<span className="ml-2 text-sm">
-									{project.projectPercentage?.toFixed(1)}%
+									{project.completionPercentage?.toFixed(1)}%
 								</span>
 							</div>
 						</td>

@@ -46,7 +46,7 @@ export default function ProjectForm() {
       } else {
         await createProject(data)
       }
-      navigate('/projetos')
+      navigate('/projects')
     } catch (err) {
       setError(err.message)
     } finally {
@@ -117,7 +117,7 @@ export default function ProjectForm() {
           </button>
           <button
             type="button"
-            onClick={() => navigate('/projetos')}
+            onClick={() => navigate('/projects')}
             className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition-colors"
           >
             Cancelar

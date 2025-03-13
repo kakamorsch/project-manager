@@ -12,13 +12,13 @@ function Navbar() {
           Gerenciador de Projetos
         </Link>
         <div className="space-x-4">
-          <Link to="/projetos/novo" className="text-gray-300 hover:bg-gray-700 px-3 py-2 rounded-md">
+          <Link to="/projects/new" className="text-gray-300 hover:bg-gray-700 px-3 py-2 rounded-md">
             Novo Projeto
           </Link>
-          <Link to="/projetos" className="text-gray-300 hover:bg-gray-700 px-3 py-2 rounded-md">
+          <Link to="/projects" className="text-gray-300 hover:bg-gray-700 px-3 py-2 rounded-md">
             Ver Projetos
           </Link>
-          <Link to="/atividades/novo" className="text-gray-300 hover:bg-gray-700 px-3 py-2 rounded-md">
+          <Link to="/activities/new" className="text-gray-300 hover:bg-gray-700 px-3 py-2 rounded-md">
             Nova Atividade
           </Link>
         </div>
@@ -35,9 +35,9 @@ function App() {
         <div className="container mx-auto p-4">
           <Routes>
             <Route path="/" element={<ProjectList />} />
-            <Route path="/projetos" element={<ProjectList />} />
-            <Route path="/projetos/novo" element={<ProjectForm />} />
-            <Route path="/atividades/novo" element={<ActivityForm />} />
+            <Route path="/projects" element={<ProjectList />} />
+            <Route path="/projects/new" element={<ProjectForm />} />
+            <Route path="/activities/new" element={<ActivityForm />} />
           </Routes>
         </div>
       </div>
