@@ -1,58 +1,27 @@
-import { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import { createProject, updateProject, getProject } from '../Api'
+import React, { useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useCreateProject } from '../Api';
 
 export default function ProjectForm() {
-  const { id } = useParams()
-  const navigate = useNavigate()
+  const { id } = useParams();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
     startDate: '',
-    endDate: ''
-  })
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
+    endDate: '',
+  });
 
-  useEffect(() => {
-    if (id) {
-      const loadProject = async () => {
-        try {
-          const project = await getProject(id)
-          setFormData({
-            name: project.name,
-            startDate: project.startDate.split('T')[0],
-            endDate: project.endDate.split('T')[0]
-          })
-        } catch (err) {
-          setError(err.message)
-        }
-      }
-      loadProject()
-    }
-  }, [id])
+  const { createProject, error, loading } = useCreateProject();
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setLoading(true)
+    e.preventDefault();
     try {
-      const data = {
-        ...formData,
-        startDate: new Date(formData.startDate).toISOString(),
-        endDate: new Date(formData.endDate).toISOString()
-      }
-
-      if (id) {
-        await updateProject(id, data)
-      } else {
-        await createProject(data)
-      }
-      navigate('/projects')
+      await createProject(formData);
+      navigate('/projects');
     } catch (err) {
-      setError(err.message)
-    } finally {
-      setLoading(false)
+      console.error('Error creating project:', err);
     }
-  }
+  };
 
   return (
     <div className="container mx-auto p-4 max-w-2xl">
@@ -60,7 +29,11 @@ export default function ProjectForm() {
         {id ? 'Editar Projeto' : 'Novo Projeto'}
       </h1>
 
-      {error && <div className="mb-4 p-3 bg-red-100 text-red-700 rounded">{error}</div>}
+      {error && (
+        <div className="mb-4 p-3 bg-red-100 text-red-700 rounded">
+          {error}
+        </div>
+      )}
 
       <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
         <div className="mb-4">
@@ -71,7 +44,7 @@ export default function ProjectForm() {
             type="text"
             id="name"
             value={formData.name}
-            onChange={(e) => setFormData({...formData, name: e.target.value})}
+            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
           />
@@ -86,7 +59,9 @@ export default function ProjectForm() {
               type="date"
               id="startDate"
               value={formData.startDate}
-              onChange={(e) => setFormData({...formData, startDate: e.target.value})}
+              onChange={(e) =>
+                setFormData({ ...formData, startDate: e.target.value })
+              }
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
             />
@@ -100,7 +75,9 @@ export default function ProjectForm() {
               type="date"
               id="endDate"
               value={formData.endDate}
-              onChange={(e) => setFormData({...formData, endDate: e.target.value})}
+              onChange={(e) =>
+                setFormData({ ...formData, endDate: e.target.value })
+              }
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
             />
@@ -125,5 +102,5 @@ export default function ProjectForm() {
         </div>
       </form>
     </div>
-  )
+  );
 }

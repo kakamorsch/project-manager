@@ -1,8 +1,8 @@
-import { Link, Routes, Route } from 'react-router-dom'
-import { ProjectProvider } from './ProjectContext'
-import ProjectList from './components/ProjectList'
-import ProjectForm from './components/ProjectForm'
-import ActivityForm from './components/ActivityForm'
+import { Link, Routes, Route } from 'react-router-dom';
+import { ProjectProvider } from './ProjectContext';
+import ProjectList from './components/ProjectList';
+import ProjectForm from './components/ProjectForm';
+import ActivityForm from './components/ActivityForm';
 
 function Navbar() {
   return (
@@ -24,7 +24,7 @@ function Navbar() {
         </div>
       </div>
     </nav>
-  )
+  );
 }
 
 function App() {
@@ -42,7 +42,7 @@ function App() {
         </div>
       </div>
     </ProjectProvider>
-  )
+  );
 }
 
-export default App
+export default App;
