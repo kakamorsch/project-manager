@@ -8,9 +8,9 @@ import PropTypes from 'prop-types';
  */
 const ProjectStatusBadge = ({ delayed }) => {
   return delayed ? (
-    <span className="bg-red-500 text-white py-1 px-2 rounded">Delayed</span>
+    <span className="bg-red-500 text-white py-1 px-2 rounded">Atrasado</span>
   ) : (
-    <span className="bg-blue-500 text-white py-1 px-2 rounded">On Time</span>
+    <span className="bg-blue-500 text-white py-1 px-2 rounded">No prazo</span>
   );
 };
 
