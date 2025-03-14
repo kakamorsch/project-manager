@@ -86,7 +86,7 @@ Isso executará testes para:
 
 Você pode testar manualmente o frontend navegando até `http://localhost:5173` e usando a interface de usuário para:
 
-1. Criar, visualizar, atualizar atividades de projetos
+1. Criar e visualizar projetos
 2. Adicionar atividades aos projetos
 3. Acompanhar o progresso do projeto
 4. Visualizar análises de projeto
@@ -98,7 +98,6 @@ O backend fornece os seguintes endpoints principais:
 - `GET /api/projects` - Obter todos os projetos
 - `POST /api/projects` - Criar um novo projeto
 - `POST /api/projects/:id/activities` - Adicionar uma atividade a um projeto
-- `PUT /api/projects/activities/:id` - Atualiza uma atividade de um projeto
 
 ## Estrutura do Projeto
 
