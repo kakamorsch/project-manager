@@ -78,16 +78,6 @@ export const useGetProject = (id) => {
   return { project, error, loading };
 };
 
-export const useDeleteProject = (id) => {
-  const { fetchApi, error, loading } = useApi();
-
-  const deleteProject = async () => {
-    await fetchApi(`${API_BASE}/projects/${id}`, 'DELETE');
-  };
-
-  return { deleteProject, error, loading };
-};
-
 export const useCreateProject = () => {
   const { fetchApi, error, loading } = useApi();
 
@@ -96,66 +86,6 @@ export const useCreateProject = () => {
   };
 
   return { createProject, error, loading };
-};
-
-export const useUpdateProject = (id) => {
-  const { fetchApi, error, loading } = useApi();
-
-  const updateProject = async (projectData) => {
-    await fetchApi(`${API_BASE}/projects/${id}`, 'PUT', projectData);
-  };
-
-  return { updateProject, error, loading };
-};
-
-export const useGetActivities = () => {
-  const { fetchApi, error, loading } = useApi();
-  const [activities, setActivities] = useState(null);
-
-  useEffect(() => {
-    const loadActivities = async () => {
-      try {
-        const data = await fetchApi(`${API_BASE}/activities`);
-        setActivities(data);
-      } catch (error) {
-        console.error('Error fetching activities:', error);
-      }
-    };
-
-    loadActivities();
-  }, [fetchApi]);
-
-  return { activities, error, loading };
-};
-
-export const useGetActivity = (id) => {
-  const { fetchApi, error, loading } = useApi();
-  const [activity, setActivity ] = useState(null);
-
-  useEffect(() => {
-    const loadActivity = async () => {
-      try {
-        const data = await fetchApi(`${API_BASE}/activities/${id}`);
-        setActivity(data);
-      } catch (error) {
-        console.error('Error fetching activity:', error);
-      }
-    };
-
-    if (id) loadActivity();
-  }, [id, fetchApi]);
-
-  return { activity, error, loading };
-};
-
-export const useDeleteActivity = (id) => {
-  const { fetchApi, error, loading } = useApi();
-
-  const deleteActivity = async () => {
-    await fetchApi(`${API_BASE}/activities/${id}`, 'DELETE');
-  };
-
-  return { deleteActivity, error, loading };
 };
 
 export const useCreateActivity = () => {
@@ -168,12 +98,4 @@ export const useCreateActivity = () => {
   return { createActivity, error, loading };
 };
 
-export const useUpdateActivity = (id) => {
-  const { fetchApi, error, loading } = useApi();
 
-  const updateActivity = async (activityData) => {
-    await fetchApi(`${API_BASE}/activities/${id}`, 'PUT', activityData);
-  };
-
-  return { updateActivity, error, loading };
-};

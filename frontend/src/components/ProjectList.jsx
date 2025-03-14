@@ -1,43 +1,17 @@
 import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ProjectContext from '../contexts/ProjectContext';
-import { useDeleteProject } from '../services/Api';
 import Button from './ui/Button';
 import LoadingWrapper from './ui/LoadingWrapper';
 import ProjectModal from './ProjectModal';
 import ProjectStatusBadge from './ui/ProjectStatusBadge';
 
 const ProjectList = () => {
-	const { projects, loading, error, refreshProjects } =
+	const { projects, loading, error } =
 		useContext(ProjectContext);
 	const [selectedProject, setSelectedProject] = useState(null);
 
-	const ProjectDeleteButton = ({ projectId }) => {
-		const { deleteProject, loading: deleteLoading } =
-			useDeleteProject(projectId);
 
-		const handleDelete = async () => {
-			if (window.confirm('Tem certeza de que deseja excluir este projeto?')) {
-				try {
-					await deleteProject();
-					refreshProjects();
-				} catch (err) {
-					console.error('Falha ao excluir o projeto:', err);
-				}
-			}
-		};
-
-		return (
-			<Button
-				onClick={handleDelete}
-				variant="danger"
-				loading={deleteLoading}
-				disabled={deleteLoading}
-			>
-				{deleteLoading ? 'Excluindo...' : 'Excluir'}
-			</Button>
-		);
-	};
 
 	const Table = ({ projects, onRowClick }) => (
 		<div className="overflow-x-auto shadow-md rounded-lg">
@@ -104,7 +78,6 @@ const ProjectList = () => {
 								>
 									Detalhes
 								</Button>
-								<ProjectDeleteButton projectId={project.id} />
 							</td>
 						</tr>
 					))}

@@ -54,9 +54,10 @@ function ActivityForm() {
         </select>
       </FormField>
 
-      <FormField label="Nome da atividade" error={createError}>
+      <FormField label="Nome da atividade" error={createError} htmlFor="name">
         <input
           type="text"
+          id='name'
           required
           value={formData.name}
           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
