@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useCreateProject } from '../Api';
+import { useCreateProject } from '../../Api';
+import ProjectContext from '../../ProjectContext';
 
 export default function ProjectForm() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { refreshProjects } = useContext(ProjectContext);
   const [formData, setFormData] = useState({
     name: '',
     startDate: '',
@@ -17,7 +19,9 @@ export default function ProjectForm() {
     e.preventDefault();
     try {
       await createProject(formData);
+      await refreshProjects();
       navigate('/projects');
+
     } catch (err) {
       console.error('Error creating project:', err);
     }

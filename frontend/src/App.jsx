@@ -1,8 +1,8 @@
 import { Link, Routes, Route } from 'react-router-dom';
 import { ProjectProvider } from './ProjectContext';
 import ProjectList from './components/ProjectList';
-import ProjectForm from './components/ProjectForm';
-import ActivityForm from './components/ActivityForm';
+import ProjectForm from './components/forms/ProjectForm';
+import ActivityForm from './components/forms/ActivityForm';
 
 function Navbar() {
   return (

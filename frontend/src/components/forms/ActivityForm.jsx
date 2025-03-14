@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { useGetProjects, useCreateActivity } from '../Api';
+import { useState, useEffect, useContext } from 'react';
+import { useGetProjects, useCreateActivity } from '../../Api';
 import { useNavigate, Link } from 'react-router-dom';
-import ProjectContext from '../ProjectContext';
-import Button from './ui/Button';
-import FormField from './ui/FormField';
-import DateInput from './ui/DateInput';
-import ErrorMessage from './ui/ErrorMessage';
+import ProjectContext from '../../ProjectContext';
+import Button from '../ui/Button';
+import FormField from '../ui/FormField';
+import DateInput from '../ui/DateInput';
+import ErrorMessage from '../ui/ErrorMessage';
 
 function ActivityForm() {
   const [formData, setFormData] = useState({
@@ -30,7 +30,7 @@ function ActivityForm() {
     try {
       await createActivity(formData);
       await refreshProjects();
-      navigate(`/projects/${formData.projectId}`);
+      navigate(`/projects`);
     } catch (error) {
       console.error('Error creating activity:', error);
     }
@@ -83,11 +83,11 @@ function ActivityForm() {
       <div className="flex items-center mb-4">
         <input
           type="checkbox"
-          checked={formData.finalized}
-          onChange={(e) => setFormData({ ...formData, finalized: e.target.checked })}
+          checked={formData.completed}
+          onChange={(e) => setFormData({ ...formData, completed: e.target.checked })}
           className="mr-2"
         />
-        <label className="text-gray-700">Finalized</label>
+        <label className="text-gray-700">Concluída</label>
       </div>
 
       <ErrorMessage error={createError} className="mb-4" />
