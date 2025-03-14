@@ -22,7 +22,7 @@ function ActivityForm() {
   const { createActivity, error: createError, loading: createLoading } = useCreateActivity();
 
   useEffect(() => {
-    if (error) console.error('Error loading projects:', error);
+    if (error) console.error('Erro ao carregar projetos:', error);
   }, [error]);
 
   const handleSubmit = async (e) => {
@@ -32,29 +32,29 @@ function ActivityForm() {
       await refreshProjects();
       navigate(`/projects`);
     } catch (error) {
-      console.error('Error creating activity:', error);
+      console.error('Erro ao criar a atividade:', error);
     }
   };
 
   return (
     <div className="container mx-auto p-4 max-w-2xl">
-      <h1 className="text-3xl font-bold mb-6">New Activity</h1>
+      <h1 className="text-3xl font-bold mb-6 text-blue-600">Nova atividade</h1>
 
-      <FormField label="Project" error={error}>
+      <FormField label="Projeto" error={error}>
         <select
           required
           value={formData.projectId}
           onChange={(e) => setFormData({ ...formData, projectId: Number(e.target.value) })}
           className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500"
         >
-          <option value="">Select a project</option>
+          <option value="">Selecione um projeto</option>
           {projects?.map((project) => (
             <option key={project.id} value={project.id}>{project.name}</option>
           ))}
         </select>
       </FormField>
 
-      <FormField label="Activity Name" error={createError}>
+      <FormField label="Nome da atividade" error={createError}>
         <input
           type="text"
           required
@@ -66,14 +66,14 @@ function ActivityForm() {
 
       <div className="grid grid-cols-2 gap-4">
         <DateInput
-          label="Start Date"
+          label="Data de início"
           value={formData.startDate}
           onChange={(value) => setFormData({ ...formData, startDate: value })}
           required
         />
 
         <DateInput
-          label="End Date"
+          label="Data de fim"
           value={formData.endDate}
           onChange={(value) => setFormData({ ...formData, endDate: value })}
           required
@@ -98,10 +98,10 @@ function ActivityForm() {
           onClick={handleSubmit}
           loading={createLoading}
         >
-          Save Activity
+          Criar atividade
         </Button>
         <Link to="/projects">
-          <Button variant="secondary">Cancel</Button>
+          <Button variant="secondary">Cancelar</Button>
         </Link>
       </div>
     </div>
