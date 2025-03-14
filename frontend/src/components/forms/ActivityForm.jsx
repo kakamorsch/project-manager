@@ -13,7 +13,7 @@ function ActivityForm() {
     name: '',
     startDate: '',
     endDate: '',
-    finalized: false,
+    completed: false,
   });
 
   const navigate = useNavigate();
