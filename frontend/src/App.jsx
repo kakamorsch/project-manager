@@ -1,9 +1,10 @@
 import { Link, Routes, Route } from 'react-router-dom';
 import { ProjectProvider } from './contexts/ProjectContext';
 import ProjectList from './components/ProjectList';
-import ProjectForm from './components/forms/ProjectForm';
-import ActivityForm from './components/forms/ActivityForm';
-
+// import ProjectForm from './components/forms/ProjectForm';
+// import ActivityForm from './components/forms/ActivityForm';
+import ActivityForm from './pages/ActivityPage/ActivityForm';
+import ProjectForm from './pages/ProjectPage/ProjectForm';
 function Navbar() {
   return (
     <nav className="bg-gray-800 p-4">
