@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import ProjectContext from '../ProjectContext';
-import { useDeleteProject } from '../Api';
+import ProjectContext from '../contexts/ProjectContext';
+import { useDeleteProject } from '../services/Api';
 import Button from './ui/Button';
 import LoadingWrapper from './ui/LoadingWrapper';
 

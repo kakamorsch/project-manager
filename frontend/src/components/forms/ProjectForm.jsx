@@ -1,7 +1,7 @@
 import { useState, useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useCreateProject } from '../../Api';
-import ProjectContext from '../../ProjectContext';
+import { useCreateProject } from '../../services/Api';
+import ProjectContext from '../../contexts/ProjectContext';
 
 export default function ProjectForm() {
   const { id } = useParams();

@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect, useCallback } from 'react';
-import { useGetProjects } from './Api';
+import { useGetProjects } from '../services/Api';
 
 const ProjectContext = createContext();
 

@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
-import { useGetProjects, useCreateActivity } from '../../Api';
+import { useGetProjects, useCreateActivity } from '../../services/Api';
 import { useNavigate, Link } from 'react-router-dom';
-import ProjectContext from '../../ProjectContext';
+import ProjectContext from '../../contexts/ProjectContext';
 import Button from '../ui/Button';
 import FormField from '../ui/FormField';
 import DateInput from '../ui/DateInput';

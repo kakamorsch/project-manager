@@ -1,5 +1,5 @@
 import { Link, Routes, Route } from 'react-router-dom';
-import { ProjectProvider } from './ProjectContext';
+import { ProjectProvider } from './contexts/ProjectContext';
 import ProjectList from './components/ProjectList';
 import ProjectForm from './components/forms/ProjectForm';
 import ActivityForm from './components/forms/ActivityForm';
